@@ -3,198 +3,85 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Puan Shaz</title>
+<title>Puan Shaz — Closing Report</title>
 <style>
   :root {
-    --bg:#f4f6f8; --card:#fff; --text:#1f2933; --muted:#6b7280;
-    --border:#e4e7eb; --primary:#2563eb; --ok:#16a34a; --bad:#dc2626;
-    --chip:#f0f2f5; --chip-hover:#e4e7eb;
+    --bg: #f4f6f8; --card: #fff; --text: #1f2933; --muted: #6b7280;
+    --border: #e4e7eb; --primary: #2563eb; --ok: #16a34a; --bad: #dc2626;
+    --input-bg: #fff; --input-border: #ccc; --highlight: #eff6ff;
   }
   body.dark {
-    --bg:#111827; --card:#1f2937; --text:#f9fafb; --muted:#9ca3af;
-    --border:#374151; --primary:#3b82f6; --ok:#22c55e; --bad:#ef4444;
-    --chip:#374151; --chip-hover:#4b5563;
+    --bg: #111827; --card: #1f2937; --text: #f9fafb; --muted: #9ca3af;
+    --border: #374151; --primary: #3b82f6; --ok: #22c55e; --bad: #ef4444;
+    --input-bg: #374151; --input-border: #4b5563; --highlight: #1e3a8a;
   }
   * { box-sizing: border-box; }
   body {
-    font-family: system-ui,-apple-system,"Segoe UI",sans-serif;
-    background:var(--bg); color:var(--text);
-    max-width:760px; margin:0 auto; padding:16px;
-    font-size:15px; line-height:1.5;
-    transition: background .2s, color .2s;
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    background: var(--bg); color: var(--text);
+    max-width: 850px; margin: 0 auto; padding: 20px;
+    font-size: 15px; line-height: 1.5; transition: background 0.3s, color 0.3s;
   }
-  header { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px; gap:8px; }
-  header h1 { font-size:20px; margin:0 0 4px; }
-  header p { color:var(--muted); font-size:13px; margin:0; }
-  .top-btns { display:flex; gap:6px; flex-wrap:wrap; }
-  .icon-btn {
-    border:1px solid var(--border); background:var(--card); color:var(--text);
-    border-radius:8px; padding:8px 10px; cursor:pointer; font-size:13px; font-weight:600;
-  }
-  .icon-btn:hover { background:var(--chip-hover); }
-  .lang-group { display:flex; border:1px solid var(--border); border-radius:8px; overflow:hidden; }
-  .lang-group button {
-    border:none; background:var(--card); color:var(--muted);
-    padding:8px 12px; cursor:pointer; font-size:13px; font-weight:600;
-  }
-  .lang-group button.active { background:var(--primary); color:#fff; }
-
-  nav.tabs { display:flex; gap:8px; margin-bottom:16px; }
-  .tab {
-    flex:1; padding:12px; border:1px solid var(--border);
-    background:var(--card); border-radius:10px;
-    cursor:pointer; font-size:14px; font-weight:600; color:var(--muted);
-  }
-  .tab.active { background:var(--primary); color:#fff; border-color:var(--primary); }
-
-  .panel { display:none; }
-  .panel.active { display:block; }
+  
+  header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+  header h1 { font-size: 22px; margin: 0; }
+  header p { color: var(--muted); font-size: 14px; margin: 4px 0 0; }
+  .btn-icon { border: 1px solid var(--border); background: var(--card); color: var(--text); border-radius: 8px; padding: 8px 12px; cursor: pointer; font-size: 16px; }
+  
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 650px) { .grid-2 { grid-template-columns: 1fr; } }
 
   .card {
-    background:var(--card); border:1px solid var(--border);
-    border-radius:10px; padding:14px; margin-bottom:12px;
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 12px; padding: 16px; margin-bottom: 16px;
   }
-  .card h2 { font-size:16px; margin:0 0 4px; }
-  .hint { font-size:12px; color:var(--muted); margin:0 0 12px; }
+  .card h2 { font-size: 16px; margin: 0 0 12px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+  
+  /* Styling for the instructions box */
+  .instructions {
+    background: var(--highlight); border-left: 4px solid var(--primary);
+    padding: 12px 16px; border-radius: 8px; margin-bottom: 20px;
+    font-size: 14px;
+  }
+  .instructions h3 { margin: 0 0 8px; font-size: 15px; color: var(--primary); }
+  .instructions ul { margin: 0; padding-left: 20px; }
+  .instructions li { margin-bottom: 4px; }
 
-  label { display:block; font-size:13px; font-weight:600; margin:10px 0 4px; }
-  input[type="number"], input[type="text"], input[type="date"] {
-    width:100%; padding:10px; border:1px solid var(--border);
-    border-radius:8px; font-size:14px; font-family:inherit;
-    background:var(--card); color:var(--text);
+  label { display: block; font-size: 13px; font-weight: 600; margin: 10px 0 4px; color: var(--text); }
+  input[type="number"], input[type="date"], input[type="text"] {
+    width: 100%; padding: 10px; border: 1px solid var(--input-border);
+    border-radius: 8px; font-size: 15px; font-family: inherit;
+    background: var(--input-bg); color: var(--text);
   }
-
-  .summary {
-    background:var(--chip); color:var(--primary);
-    padding:8px 12px; border-radius:8px;
-    font-size:13px; font-weight:600; margin-bottom:12px;
+  input:focus { outline: 2px solid var(--primary); }
+  
+  .result-box {
+    background: var(--highlight); border-radius: 8px; padding: 12px;
+    margin-top: 16px;
   }
-
-  .invoice-card {
-    background:var(--chip); border:1px solid var(--border);
-    border-radius:8px; padding:10px; margin-bottom:8px;
-  }
-  .invoice-card.ok { border-color:var(--ok); }
-  .invoice-head { display:flex; gap:6px; align-items:center; margin-bottom:6px; }
-  .invoice-head .supplier { flex:2; }
-  .invoice-head .inv-no { flex:1; }
-  .invoice-head input { padding:8px; font-size:13px; }
-  .invoice-amount { display:flex; gap:6px; align-items:center; margin-bottom:8px; }
-  .invoice-amount input { padding:8px; font-size:13px; }
-  .checks { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:6px; }
-  .checks label {
-    display:flex; align-items:center; gap:6px;
-    font-size:13px; font-weight:normal; margin:0; cursor:pointer;
-    padding:8px 10px; border:1px solid var(--border);
-    border-radius:6px; background:var(--card); user-select:none;
-  }
-  .checks input[type="checkbox"] { width:16px; height:16px; margin:0; }
-  .checks input[type="checkbox"]:checked + span { color:var(--ok); font-weight:600; }
-  .invoice-note { font-size:13px; padding:8px; }
-
-  .del {
-    background:transparent; border:none; color:var(--muted);
-    font-size:16px; cursor:pointer; padding:4px 8px;
-  }
-  .del:hover { color:var(--bad); }
-  .edit-btn {
-    background:transparent; border:none; color:var(--muted);
-    font-size:15px; cursor:pointer; padding:4px 8px;
-  }
-  .edit-btn:hover { color:var(--primary); }
-
-  details.card summary {
-    cursor:pointer; font-weight:600; font-size:14px;
-    list-style:none; padding:4px 0;
-  }
-  details.card summary::-webkit-details-marker { display:none; }
-  details.card summary::before { content:"▸ "; color:var(--muted); }
-  details.card[open] summary::before { content:"▾ "; }
-
-  .stock-header, .stock-row {
-    display:grid;
-    grid-template-columns:minmax(0,2fr) minmax(0,1fr) minmax(0,1fr) minmax(0,1fr) auto;
-    gap:6px; align-items:center;
-  }
-  .stock-header {
-    padding:0 6px; margin-bottom:4px; margin-top:12px;
-    font-size:11px; color:var(--muted);
-    text-transform:uppercase; letter-spacing:.3px;
-  }
-  .stock-header span { text-align:center; }
-  .stock-header span:first-child { text-align:left; }
-  .stock-row {
-    margin-bottom:6px; padding:6px;
-    background:var(--chip); border:1px solid var(--border);
-    border-radius:8px;
-  }
-  .stock-row input { padding:8px; font-size:13px; }
-  .to-order { text-align:center; font-weight:700; color:var(--bad); font-size:14px; }
-  .to-order.zero { color:var(--muted); font-weight:400; }
-
   .result-row {
-    display:flex; justify-content:space-between;
-    padding:8px 0; border-bottom:1px dashed var(--border); font-size:14px;
+    display: flex; justify-content: space-between;
+    padding: 8px 0; border-bottom: 1px dashed var(--border);
   }
-  .result-row:last-child { border-bottom:none; }
-  .ok { color:var(--ok); font-weight:700; }
-  .bad { color:var(--bad); font-weight:700; }
-
-  .actions { display:flex; gap:8px; margin-top:16px; flex-wrap:wrap; }
+  .result-row:last-child { border-bottom: none; font-weight: bold; font-size: 16px; margin-top: 4px; padding-top: 12px; }
+  .ok { color: var(--ok); }
+  .bad { color: var(--bad); }
+  
+  .actions { display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap; }
   .btn {
-    padding:12px 16px; border:1px solid var(--border);
-    background:var(--card); color:var(--text);
-    border-radius:10px; cursor:pointer; font-size:14px; font-weight:600;
+    padding: 12px 20px; border: 1px solid var(--border); background: var(--card);
+    color: var(--text); border-radius: 8px; cursor: pointer; font-size: 15px; font-weight: 600;
+    flex: 1;
   }
-  .btn:hover { background:var(--chip-hover); }
-  .btn.primary { background:var(--primary); color:#fff; border-color:var(--primary); }
-  .btn.danger { color:var(--bad); }
-  .btn.full { width:100%; margin-top:10px; }
-  .save-note { font-size:12px; color:var(--muted); text-align:center; margin-top:12px; }
-
-  .toolbar { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:12px; }
-
-  /* edit modal */
-  .modal-bg {
-    position:fixed; inset:0; background:rgba(0,0,0,.5);
-    display:none; align-items:center; justify-content:center; padding:16px; z-index:100;
-  }
-  .modal-bg.show { display:flex; }
-  .modal-box {
-    background:var(--card); border-radius:12px;
-    padding:16px; max-width:420px; width:100%;
-    max-height:80vh; overflow-y:auto;
-  }
-  .modal-box h3 { margin:0 0 12px; font-size:16px; }
-  .modal-actions { display:flex; gap:8px; margin-top:16px; }
-  .modal-actions .btn { flex:1; }
-
+  .btn.primary { background: var(--primary); color: #fff; border-color: var(--primary); }
+  .btn:hover { opacity: 0.9; }
+  
   @media print {
-    body, body.dark { background:#fff !important; color:#000 !important; max-width:100%; padding:0; }
-    .card { background:#fff !important; color:#000 !important; border:1px solid #000 !important; page-break-inside:avoid; }
-    nav.tabs, .actions, .save-note, .del, .edit-btn, .toolbar, .top-btns, .modal-bg, details.card summary { display:none !important; }
-    .panel { display:none !important; }
-    .panel.active { display:block !important; }
-    details.card { display:block !important; }
-    input { border:none !important; background:transparent !important; color:#000 !important; padding:0 !important; }
-    .invoice-card, .stock-row { background:#fff !important; border:1px solid #999 !important; }
-    .summary { background:#eee !important; color:#000 !important; }
-  }
-
-  @media (max-width:480px) {
-    .invoice-head { flex-wrap:wrap; }
-    .invoice-head .supplier { flex-basis:100%; }
-    .checks { flex-direction:column; }
-    .stock-header { display:none; }
-    .stock-row {
-      grid-template-columns:1fr 1fr 1fr auto;
-      grid-template-areas:"name name name del" "current par order order";
-    }
-    .stock-row .item-name    { grid-area:name; }
-    .stock-row .item-current { grid-area:current; }
-    .stock-row .item-par     { grid-area:par; }
-    .stock-row .to-order     { grid-area:order; text-align:right; }
-    .stock-row .del          { grid-area:del; }
+    body { background: #fff !important; color: #000 !important; }
+    .card { border: 1px solid #000 !important; break-inside: avoid; }
+    .actions, .btn-icon, .no-print, .instructions { display: none !important; }
+    input { border: none !important; background: transparent !important; font-weight: bold; }
+    .result-box { border: 1px solid #000; }
   }
 </style>
 </head>
@@ -202,612 +89,211 @@
 
 <header>
   <div>
-    <h1 data-i18n="title">Puan Shaz</h1>
-    <p data-i18n="subtitle">2 checkpoints daily: 2PM invoices · 10PM closing</p>
+    <h1>Closing Report</h1>
+    <p>Puan Shaz</p>
   </div>
-  <div class="top-btns">
-    <div class="lang-group">
-      <button id="lang-en" onclick="setLang('en')">EN</button>
-      <button id="lang-my" onclick="setLang('my')">BM</button>
-    </div>
-    <button class="icon-btn" id="theme-btn" onclick="toggleTheme()" title="Theme">🌙</button>
-  </div>
+  <button class="btn-icon" id="theme-btn" onclick="toggleTheme()">🌙</button>
 </header>
 
-<nav class="tabs">
-  <button class="tab active" data-tab="pm2" data-i18n="tab2pm">📄 2PM — Invoices</button>
-  <button class="tab" data-tab="pm10" data-i18n="tab10pm">🌙 10PM — Closing</button>
-</nav>
-
-<!-- ==================== 2PM ==================== -->
-<section id="pm2" class="panel active">
-  <div class="card">
-    <h2 data-i18n="inv_title">📄 Invoice check — before sending to office</h2>
-    <p class="hint" data-i18n="inv_hint">Tick all 3 boxes when correct. Card turns green when all ticked.</p>
-
-    <div id="inv-summary" class="summary" data-i18n="no_invoices">No invoices yet</div>
-    <div id="invoice-list"></div>
-
-    <button class="btn full" onclick="addInvoice()" data-i18n="add_invoice">+ Add invoice</button>
-  </div>
-
-  <details class="card">
-    <summary data-i18n="stock_title">📦 Stock (open if needed)</summary>
-    <p class="hint" style="margin-top:10px" data-i18n="stock_hint">
-      Fill <b>Have</b> and <b>Par</b>. <b>Order</b> column is automatic (Par − Have).
-    </p>
-    <div class="stock-header">
-      <span data-i18n="item">Item</span>
-      <span data-i18n="have">Have</span>
-      <span data-i18n="par">Par</span>
-      <span data-i18n="order">Order</span>
-      <span></span>
-    </div>
-    <div id="stock-rows"></div>
-    <button class="btn full" onclick="addStockRow()" data-i18n="add_item">+ Add item</button>
-  </details>
-</section>
-
-<!-- ==================== 10PM ==================== -->
-<section id="pm10" class="panel">
-  <div class="card">
-    <h2 data-i18n="close_title">🌙 Closing report</h2>
-    <label><span data-i18n="date">Date</span> <input type="date" id="close-date" oninput="save()"></label>
-    <label><span data-i18n="float">Opening Float ($)</span>
-      <input type="number" id="modal" step="0.01" oninput="calcClosing();save()">
-    </label>
-    <label><span data-i18n="cash">Cash Sales ($)</span>
-      <input type="number" id="cash" step="0.01" oninput="calcClosing();save()">
-    </label>
-    <label><span data-i18n="card">Card / Online Sales ($)</span>
-      <input type="number" id="card" step="0.01" oninput="calcClosing();save()">
-    </label>
-    <label><span data-i18n="out">Money Out / Petty Cash ($)</span>
-      <input type="number" id="keluar" step="0.01" oninput="calcClosing();save()">
-    </label>
-    <label><span data-i18n="counted">Cash Counted in Drawer ($)</span>
-      <input type="number" id="kira" step="0.01" oninput="calcClosing();save()">
-    </label>
-  </div>
-
-  <div class="card">
-    <div class="result-row"><span data-i18n="r_cash">Cash Sales</span><span id="r-cash">$0.00</span></div>
-    <div class="result-row"><span data-i18n="r_card">Card/Online Sales</span><span id="r-card">$0.00</span></div>
-    <div class="result-row"><span><b data-i18n="r_total">Total Sales</b></span><span><b id="r-total">$0.00</b></span></div>
-    <div class="result-row"><span data-i18n="r_expected">Expected Cash</span><span id="r-expected">$0.00</span></div>
-    <div class="result-row"><span><b data-i18n="r_variance">Variance</b></span><span id="r-variance">$0.00</span></div>
-  </div>
-</section>
-
-<!-- ==================== GLOBAL TOOLBAR ==================== -->
-<div class="card">
-  <div class="toolbar">
-    <button class="btn" style="flex:1" onclick="window.print()">🖨️ <span data-i18n="pdf">PDF / Print</span></button>
-    <button class="btn" style="flex:1" onclick="exportCSV()">📊 <span data-i18n="csv">CSV</span></button>
-  </div>
-  <div class="toolbar">
-    <button class="btn" style="flex:1" onclick="exportJSON()">💾 <span data-i18n="backup">Backup JSON</span></button>
-    <button class="btn" style="flex:1" onclick="document.getElementById('import-file').click()">📂 <span data-i18n="restore">Restore JSON</span></button>
-    <input type="file" id="import-file" accept=".json" onchange="importJSON(event)" style="display:none">
-  </div>
-  <button class="btn danger" style="width:100%;margin-top:6px" onclick="resetAll()">🔄 <span data-i18n="reset">Reset today</span></button>
+<!-- INSTRUCTIONS SECTION -->
+<div class="instructions no-print">
+  <h3>📋 How to use this app</h3>
+  <ul>
+    <li><b>Step 1:</b> Fill in the <b>Sales Data</b> (Gross Sales, Cash Sales, Card/Nets).</li>
+    <li><b>Step 2:</b> Enter any <b>Deductions</b> (Staff meals, Tips).</li>
+    <li><b>Step 3:</b> Enter the <b>Cash Counted</b> in the drawer.</li>
+    <li><b>Step 4:</b> Check the <b>Summary</b>. Green means cash is perfect, red means there is a variance.</li>
+    <li><b>Step 5:</b> Click <b>Print / PDF</b> to save or send to the office.</li>
+  </ul>
 </div>
 
-<p class="save-note" data-i18n="save_note">✓ Auto-saved in this browser</p>
+<div class="grid-2">
+  <!-- LEFT: INPUT -->
+  <div>
+    <div class="card">
+      <h2>1. Sales Data</h2>
+      <label>Date <input type="date" id="date" oninput="calc(); save()"></label>
+      <label>Gross Sales (Total) <input type="number" step="0.01" id="gross_sales" placeholder="0.00" oninput="calc(); save()"></label>
+      
+      <label style="margin-top: 16px; color: var(--primary);">Payment Breakdown</label>
+      <label>Cash Sales <input type="number" step="0.01" id="cash_sales" placeholder="0.00" oninput="calc(); save()"></label>
+      <label>Card / Nets Settlement <input type="number" step="0.01" id="settlement" placeholder="0.00" oninput="calc(); save()"></label>
+      
+      <label style="margin-top: 16px; color: var(--primary);">Deductions</label>
+      <label>Staff Meals ($) <input type="number" step="0.01" id="staff_meal" placeholder="0.00" oninput="calc(); save()"></label>
+      <label>Total Tips ($) <input type="number" step="0.01" id="tips" placeholder="0.00" oninput="calc(); save()"></label>
+      <label>No. of Staff for Tips <input type="number" id="staff_count" placeholder="0" oninput="calc(); save()"></label>
+    </div>
+  </div>
 
-<!-- ==================== EDIT MODAL ==================== -->
-<div class="modal-bg" id="edit-modal">
-  <div class="modal-box">
-    <h3 data-i18n="edit_title">Edit invoice</h3>
-    <label><span data-i18n="supplier">Supplier</span>
-      <input type="text" id="edit-supplier">
-    </label>
-    <label><span data-i18n="inv_no">Invoice no.</span>
-      <input type="text" id="edit-invno">
-    </label>
-    <label><span data-i18n="amount">Amount ($)</span>
-      <input type="number" step="0.01" id="edit-amount">
-    </label>
-    <label><span data-i18n="note">Note (if any issue)</span>
-      <input type="text" id="edit-note">
-    </label>
-    <div class="modal-actions">
-      <button class="btn" onclick="closeEdit()" data-i18n="cancel">Cancel</button>
-      <button class="btn primary" onclick="saveEdit()" data-i18n="save">Save</button>
+  <!-- RIGHT: CASH & RESULT -->
+  <div>
+    <div class="card">
+      <h2>2. Cash Drawer</h2>
+      <label>Opening Float ($) <input type="number" step="0.01" id="float" value="500.00" oninput="calc(); save()"></label>
+      <label>Petty Cash ($) <input type="number" step="0.01" id="petty" placeholder="0.00" oninput="calc(); save()"></label>
+      
+      <hr style="border: none; border-top: 1px solid var(--border); margin: 16px 0;">
+      
+      <label style="font-size: 15px; color: var(--primary);">Cash Counted in Drawer ($) 
+        <input type="number" step="0.01" id="cash_counted" placeholder="0.00" oninput="calc(); save()" style="font-size: 18px; padding: 12px; font-weight: bold; border-color: var(--primary);">
+      </label>
+    </div>
+
+    <div class="card">
+      <h2>3. Summary</h2>
+      
+      <div class="result-box">
+        <div class="result-row">
+          <span>Expected Cash</span>
+          <span id="r_expected">$0.00</span>
+        </div>
+        <div class="result-row">
+          <span>Actual Cash Counted</span>
+          <span id="r_actual">$0.00</span>
+        </div>
+        <div class="result-row" id="variance_row">
+          <span>Variance</span>
+          <span id="r_variance">$0.00</span>
+        </div>
+      </div>
+      
+      <div style="margin-top: 16px; font-size: 14px; color: var(--muted); background: var(--bg); padding: 10px; border-radius: 8px;">
+        <div style="display: flex; justify-content: space-between; font-weight: 600;">
+          <span>Tips per staff:</span>
+          <span id="r_tips_per_staff" style="color: var(--primary);">$0.00</span>
+        </div>
+      </div>
     </div>
   </div>
 </div>
+
+<div class="actions no-print">
+  <button class="btn primary" onclick="window.print()">🖨️ Print / Save PDF</button>
+  <button class="btn" onclick="exportJSON()">💾 Backup JSON</button>
+  <button class="btn" onclick="resetAll()" style="color: var(--bad); border-color: var(--bad);">🔄 Reset Today</button>
+</div>
+
+<p style="text-align: center; font-size: 12px; color: var(--muted); margin-top: 20px;">✓ Auto-saved in this browser</p>
 
 <script>
-/* =========================================================
-   TRANSLATIONS
-   ========================================================= */
-const I18N = {
-  en: {
-    title:"Puan Shaz",
-    subtitle:"2 checkpoints daily: 2PM invoices · 10PM closing",
-    tab2pm:"📄 2PM — Invoices", tab10pm:"🌙 10PM — Closing",
-    inv_title:"📄 Invoice check — before sending to office",
-    inv_hint:"Tick all 3 boxes when correct. Card turns green when all ticked.",
-    no_invoices:"No invoices yet",
-    add_invoice:"+ Add invoice",
-    stock_title:"📦 Stock (open if needed)",
-    stock_hint:"Fill <b>Have</b> and <b>Par</b>. <b>Order</b> column is automatic (Par − Have).",
-    item:"Item", have:"Have", par:"Par", order:"Order",
-    add_item:"+ Add item",
-    close_title:"🌙 Closing report",
-    date:"Date", float:"Opening Float ($)", cash:"Cash Sales ($)",
-    card:"Card / Online Sales ($)", out:"Money Out / Petty Cash ($)",
-    counted:"Cash Counted in Drawer ($)",
-    r_cash:"Cash Sales", r_card:"Card/Online Sales",
-    r_total:"Total Sales", r_expected:"Expected Cash", r_variance:"Variance",
-    pdf:"PDF / Print", csv:"CSV", backup:"Backup JSON", restore:"Restore JSON",
-    reset:"Reset today", save_note:"✓ Auto-saved in this browser",
-    edit_title:"Edit invoice", supplier:"Supplier", inv_no:"Invoice no.",
-    amount:"Amount ($)", note:"Note (if any issue)",
-    cancel:"Cancel", save:"Save",
-    price_ok:"Price correct", qty_ok:"Qty correct", items_ok:"Items complete",
-    placeholder_supplier:"Supplier", placeholder_invno:"Invoice no.",
-    placeholder_amount:"Amount", placeholder_note:"Note (if any issue)",
-    placeholder_item:"Item", placeholder_have:"Have", placeholder_par:"Par",
-    confirm_delete:"Delete this?", confirm_reset:"Delete all data today? (Cannot undo)",
-    summary:"invoices • OK • pending",
-    print:"Print", edit:"Edit", del:"Delete"
-  },
-  my: {
-    title:"Puan Shaz — Pembantu Harian",
-    subtitle:"2 checkpoint sehari: 2PM invois · 10PM tutup kedai",
-    tab2pm:"📄 2PM — Invois", tab10pm:"🌙 10PM — Tutup",
-    inv_title:"📄 Semak invois — sebelum hantar office",
-    inv_hint:"Tanda 3 kotak bila betul. Kad jadi hijau bila semua ditanda.",
-    no_invoices:"Tiada invois lagi",
-    add_invoice:"+ Tambah invois",
-    stock_title:"📦 Stock (buka kalau perlu)",
-    stock_hint:"Isi <b>Ada</b> dan <b>Par</b>. Kolum <b>Order</b> dikira automatik (Par − Ada).",
-    item:"Barang", have:"Ada", par:"Par", order:"Order",
-    add_item:"+ Tambah barang",
-    close_title:"🌙 Laporan tutup kedai",
-    date:"Tarikh", float:"Modal Awal ($)", cash:"Jualan Tunai ($)",
-    card:"Jualan Kad / Online ($)", out:"Wang Keluar / Petty Cash ($)",
-    counted:"Cash Dikira Dalam Drawer ($)",
-    r_cash:"Jualan Tunai", r_card:"Jualan Kad/Online",
-    r_total:"Jumlah Jualan", r_expected:"Tunai Sepatutnya", r_variance:"Beza",
-    pdf:"PDF / Print", csv:"CSV", backup:"Backup JSON", restore:"Restore JSON",
-    reset:"Reset hari ini", save_note:"✓ Auto-save dalam browser ini",
-    edit_title:"Edit invois", supplier:"Supplier", inv_no:"No. invois",
-    amount:"Jumlah ($)", note:"Nota (kalau ada isu)",
-    cancel:"Batal", save:"Simpan",
-    price_ok:"Harga betul", qty_ok:"Kuantiti betul", items_ok:"Barang lengkap",
-    placeholder_supplier:"Supplier", placeholder_invno:"No. invois",
-    placeholder_amount:"Jumlah", placeholder_note:"Nota (kalau ada isu)",
-    placeholder_item:"Barang", placeholder_have:"Ada", placeholder_par:"Par",
-    confirm_delete:"Padam ini?", confirm_reset:"Padam semua data hari ini? (Tak boleh undo)",
-    summary:"invois • OK • belum siap",
-    print:"Print", edit:"Edit", del:"Padam"
-  }
-};
+  const KEY = 'puan-shaz-closing-v1';
 
-let lang = 'en';
-let editingIndex = -1;
+  function getVal(id) { return parseFloat(document.getElementById(id).value) || 0; }
+  function fmt(n) { return '$' + n.toFixed(2); }
 
-/* =========================================================
-   STATE
-   ========================================================= */
-const KEY = 'puan-shaz-v1';
-let state = {
-  invoices: [],
-  stock: [{ name:'', current:'', par:'' }],
-  closing: { date:'', modal:'', cash:'', card:'', keluar:'', kira:'' }
-};
+  // Calculate everything
+  function calc() {
+    const gross = getVal('gross_sales');
+    const cash_sales = getVal('cash_sales');
+    const settlement = getVal('settlement');
+    const float = getVal('float');
+    const petty = getVal('petty');
+    const staff_meal = getVal('staff_meal');
+    const cash_counted = getVal('cash_counted');
+    const tips = getVal('tips');
+    const staff_count = getVal('staff_count');
 
-/* =========================================================
-   SAVE / LOAD
-   ========================================================= */
-function save() {
-  state.closing.date   = document.getElementById('close-date').value;
-  state.closing.modal  = document.getElementById('modal').value;
-  state.closing.cash   = document.getElementById('cash').value;
-  state.closing.card   = document.getElementById('card').value;
-  state.closing.keluar = document.getElementById('keluar').value;
-  state.closing.kira   = document.getElementById('kira').value;
-  localStorage.setItem(KEY, JSON.stringify(state));
-}
+    // Business Logic
+    // Expected Cash = Opening Float + Cash Sales - Staff Meal - Petty Cash
+    const expected_cash = float + cash_sales - staff_meal - petty;
+    const variance = cash_counted - expected_cash;
+    
+    // Tips per staff
+    const tips_per_staff = staff_count > 0 ? (tips / staff_count) : 0;
 
-function load() {
-  const saved = localStorage.getItem(KEY);
-  if (!saved) { state.closing.date = new Date().toISOString().slice(0,10); return; }
-  try {
-    const p = JSON.parse(saved);
-    state = Object.assign(state, p);
-    state.invoices = state.invoices || [];
-    state.stock    = (state.stock && state.stock.length) ? state.stock : [{ name:'', current:'', par:'' }];
-    state.closing  = state.closing || {};
-  } catch(e){}
-}
+    // Display
+    document.getElementById('r_expected').textContent = fmt(expected_cash);
+    document.getElementById('r_actual').textContent = fmt(cash_counted);
+    document.getElementById('r_tips_per_staff').textContent = fmt(tips_per_staff);
 
-/* =========================================================
-   LANGUAGE
-   ========================================================= */
-function setLang(l) {
-  lang = l;
-  document.documentElement.lang = l;
-  document.getElementById('lang-en').classList.toggle('active', l === 'en');
-  document.getElementById('lang-my').classList.toggle('active', l === 'my');
-  localStorage.setItem('puan-shaz-lang', l);
-
-  document.querySelectorAll('[data-i18n]').forEach(function (el) {
-    const key = el.dataset.i18n;
-    if (I18N[l][key]) el.innerHTML = I18N[l][key];
-  });
-
-  // update placeholders
-  const t = I18N[l];
-  document.querySelectorAll('.invoice-card').forEach(function (card) {
-    const sup = card.querySelector('.supplier');
-    const inv = card.querySelector('.inv-no');
-    const amt = card.querySelector('.invoice-amount input');
-    const note = card.querySelector('.invoice-note');
-    if (sup) sup.placeholder = t.placeholder_supplier;
-    if (inv) inv.placeholder = t.placeholder_invno;
-    if (amt) amt.placeholder = t.placeholder_amount;
-    if (note) note.placeholder = t.placeholder_note;
-  });
-
-  renderInvoices();
-  renderStock();
-}
-
-/* =========================================================
-   THEME
-   ========================================================= */
-function toggleTheme() {
-  const dark = document.body.classList.toggle('dark');
-  document.getElementById('theme-btn').textContent = dark ? '☀️' : '🌙';
-  localStorage.setItem('puan-shaz-theme', dark ? 'dark' : 'light');
-}
-
-/* =========================================================
-   INVOICES
-   ========================================================= */
-function renderInvoices() {
-  const list = document.getElementById('invoice-list');
-  list.innerHTML = '';
-  const t = I18N[lang];
-
-  state.invoices.forEach(function (inv, i) {
-    const allOk = inv.check1 && inv.check2 && inv.check3;
-    const card = document.createElement('div');
-    card.className = 'invoice-card' + (allOk ? ' ok' : '');
-    card.innerHTML =
-      '<div class="invoice-head">' +
-        '<input class="supplier" type="text" placeholder="' + t.placeholder_supplier + '" value="' + esc(inv.supplier) + '" oninput="setInvoice(' + i + ', \'supplier\', this.value)">' +
-        '<input class="inv-no" type="text" placeholder="' + t.placeholder_invno + '" value="' + esc(inv.invNo) + '" oninput="setInvoice(' + i + ', \'invNo\', this.value)">' +
-        '<button class="edit-btn" onclick="openEdit(' + i + ')" title="' + t.edit + '">✏️</button>' +
-        '<button class="del" onclick="deleteInvoice(' + i + ')" title="' + t.del + '">✕</button>' +
-      '</div>' +
-      '<div class="invoice-amount">' +
-        '<span>$</span>' +
-        '<input type="number" step="0.01" placeholder="' + t.placeholder_amount + '" value="' + inv.amount + '" oninput="setInvoice(' + i + ', \'amount\', this.value)">' +
-      '</div>' +
-      '<div class="checks">' +
-        '<label><input type="checkbox" ' + (inv.check1 ? 'checked' : '') + ' onchange="toggleCheck(' + i + ',1,this.checked)"><span>' + t.price_ok + '</span></label>' +
-        '<label><input type="checkbox" ' + (inv.check2 ? 'checked' : '') + ' onchange="toggleCheck(' + i + ',2,this.checked)"><span>' + t.qty_ok + '</span></label>' +
-        '<label><input type="checkbox" ' + (inv.check3 ? 'checked' : '') + ' onchange="toggleCheck(' + i + ',3,this.checked)"><span>' + t.items_ok + '</span></label>' +
-      '</div>' +
-      '<input class="invoice-note" type="text" placeholder="' + t.placeholder_note + '" value="' + esc(inv.note) + '" oninput="setInvoice(' + i + ', \'note\', this.value)">';
-    list.appendChild(card);
-  });
-
-  updateInvSummary();
-}
-
-function setInvoice(i, field, value) {
-  state.invoices[i][field] = value;
-  save();
-}
-
-function toggleCheck(i, n, checked) {
-  state.invoices[i]['check' + n] = checked;
-  const inv = state.invoices[i];
-  const allOk = inv.check1 && inv.check2 && inv.check3;
-  const cards = document.querySelectorAll('.invoice-card');
-  if (cards[i]) cards[i].className = 'invoice-card' + (allOk ? ' ok' : '');
-  updateInvSummary();
-  save();
-}
-
-function updateInvSummary() {
-  const t = I18N[lang];
-  const total = state.invoices.length;
-  const ok = state.invoices.filter(function (i) { return i.check1 && i.check2 && i.check3; }).length;
-  const el = document.getElementById('inv-summary');
-  if (total === 0) el.textContent = t.no_invoices;
-  else el.textContent = total + ' ' + t.summary.replace('•', '• ' + ok + ' •').replace('• ' + ok + ' •', '• ' + ok + ' OK •');
-  // simpler: rebuild
-  if (total > 0) {
-    const pending = total - ok;
-    el.textContent = lang === 'en'
-      ? total + ' invoices • ' + ok + ' OK • ' + pending + ' pending'
-      : total + ' invois • ' + ok + ' OK • ' + pending + ' belum siap';
-  }
-}
-
-function addInvoice() {
-  state.invoices.push({ supplier:'', invNo:'', amount:'', check1:false, check2:false, check3:false, note:'' });
-  renderInvoices();
-  save();
-}
-
-function deleteInvoice(i) {
-  if (!confirm(I18N[lang].confirm_delete)) return;
-  state.invoices.splice(i, 1);
-  renderInvoices();
-  save();
-}
-
-/* =========================================================
-   EDIT MODAL
-   ========================================================= */
-function openEdit(i) {
-  editingIndex = i;
-  const inv = state.invoices[i];
-  document.getElementById('edit-supplier').value = inv.supplier || '';
-  document.getElementById('edit-invno').value    = inv.invNo || '';
-  document.getElementById('edit-amount').value   = inv.amount || '';
-  document.getElementById('edit-note').value     = inv.note || '';
-  document.getElementById('edit-modal').classList.add('show');
-}
-function closeEdit() {
-  document.getElementById('edit-modal').classList.remove('show');
-  editingIndex = -1;
-}
-function saveEdit() {
-  if (editingIndex < 0) return;
-  const inv = state.invoices[editingIndex];
-  inv.supplier = document.getElementById('edit-supplier').value;
-  inv.invNo    = document.getElementById('edit-invno').value;
-  inv.amount   = document.getElementById('edit-amount').value;
-  inv.note     = document.getElementById('edit-note').value;
-  closeEdit();
-  renderInvoices();
-  save();
-}
-
-/* =========================================================
-   STOCK
-   ========================================================= */
-function renderStock() {
-  const c = document.getElementById('stock-rows');
-  c.innerHTML = '';
-  const t = I18N[lang];
-
-  state.stock.forEach(function (row, i) {
-    const current = parseFloat(row.current) || 0;
-    const par     = parseFloat(row.par) || 0;
-    const order   = Math.max(0, par - current);
-
-    const div = document.createElement('div');
-    div.className = 'stock-row';
-    div.innerHTML =
-      '<input class="item-name" type="text" placeholder="' + t.placeholder_item + '" value="' + esc(row.name) + '" oninput="updateStock(' + i + ', \'name\', this.value)">' +
-      '<input class="item-current" type="number" placeholder="' + t.placeholder_have + '" value="' + row.current + '" oninput="updateStock(' + i + ', \'current\', this.value)">' +
-      '<input class="item-par" type="number" placeholder="' + t.placeholder_par + '" value="' + row.par + '" oninput="updateStock(' + i + ', \'par\', this.value)">' +
-      '<span class="to-order ' + (order === 0 ? 'zero' : '') + '">' + (order || '—') + '</span>' +
-      '<button class="del" onclick="deleteStock(' + i + ')">✕</button>';
-    c.appendChild(div);
-  });
-}
-
-function updateStock(i, field, value) {
-  state.stock[i][field] = value;
-  const row = state.stock[i];
-  const current = parseFloat(row.current) || 0;
-  const par     = parseFloat(row.par) || 0;
-  const order   = Math.max(0, par - current);
-  const span = document.querySelectorAll('.stock-row')[i].querySelector('.to-order');
-  span.textContent = order || '—';
-  span.className = 'to-order ' + (order === 0 ? 'zero' : '');
-  save();
-}
-
-function addStockRow() {
-  state.stock.push({ name:'', current:'', par:'' });
-  renderStock();
-  save();
-}
-
-function deleteStock(i) {
-  if (!confirm(I18N[lang].confirm_delete)) return;
-  state.stock.splice(i, 1);
-  if (state.stock.length === 0) state.stock.push({ name:'', current:'', par:'' });
-  renderStock();
-  save();
-}
-
-/* =========================================================
-   CLOSING
-   ========================================================= */
-function fmt(n) { return '$' + (parseFloat(n) || 0).toFixed(2); }
-
-function calcClosing() {
-  const modal  = parseFloat(document.getElementById('modal').value)  || 0;
-  const cash   = parseFloat(document.getElementById('cash').value)   || 0;
-  const card   = parseFloat(document.getElementById('card').value)   || 0;
-  const keluar = parseFloat(document.getElementById('keluar').value) || 0;
-  const kira   = parseFloat(document.getElementById('kira').value)   || 0;
-
-  const total    = cash + card;
-  const expected = modal + cash - keluar;
-  const variance = kira - expected;
-
-  document.getElementById('r-cash').textContent     = fmt(cash);
-  document.getElementById('r-card').textContent     = fmt(card);
-  document.getElementById('r-total').textContent    = fmt(total);
-  document.getElementById('r-expected').textContent = fmt(expected);
-
-  const vEl = document.getElementById('r-variance');
-  vEl.textContent = fmt(variance);
-  if (Math.abs(variance) < 0.01) {
-    vEl.className = 'ok';
-    vEl.textContent += ' ✓';
-  } else {
-    vEl.className = 'bad';
-  }
-}
-
-/* =========================================================
-   EXPORT CSV
-   ========================================================= */
-function exportCSV() {
-  const date = state.closing.date || new Date().toISOString().slice(0,10);
-  let rows = [];
-
-  if (state.invoices.length) {
-    rows.push(['Date', date]);
-    rows.push(['Type', 'Invoice']);
-    rows.push(['Supplier', 'Invoice No', 'Amount ($)', 'Price OK', 'Qty OK', 'Items OK', 'Note']);
-    state.invoices.forEach(function (inv) {
-      rows.push([inv.supplier, inv.invNo, inv.amount, inv.check1?'Y':'N', inv.check2?'Y':'N', inv.check3?'Y':'N', inv.note]);
-    });
-    rows.push([]);
-  }
-
-  if (state.stock.length && state.stock.some(function (s) { return s.name; })) {
-    rows.push(['Type', 'Stock']);
-    rows.push(['Item', 'Have', 'Par', 'Order']);
-    state.stock.forEach(function (s) {
-      if (!s.name) return;
-      const cur = parseFloat(s.current) || 0;
-      const par = parseFloat(s.par) || 0;
-      rows.push([s.name, cur, par, Math.max(0, par - cur)]);
-    });
-    rows.push([]);
-  }
-
-  rows.push(['Type', 'Closing']);
-  rows.push(['Float', state.closing.modal]);
-  rows.push(['Cash Sales', state.closing.cash]);
-  rows.push(['Card Sales', state.closing.card]);
-  rows.push(['Money Out', state.closing.keluar]);
-  rows.push(['Cash Counted', state.closing.kira]);
-
-  const csv = rows.map(function (r) {
-    return r.map(function (c) {
-      c = String(c == null ? '' : c);
-      return (c.indexOf(',') >= 0 || c.indexOf('"') >= 0) ? '"' + c.replace(/"/g,'""') + '"' : c;
-    }).join(',');
-  }).join('\n');
-
-  const blob = new Blob([csv], { type:'text/csv' });
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = 'puan-shaz-' + date + '.csv';
-  a.click();
-}
-
-/* =========================================================
-   EXPORT / IMPORT JSON
-   ========================================================= */
-function exportJSON() {
-  const date = state.closing.date || new Date().toISOString().slice(0,10);
-  const data = {
-    exported: new Date().toISOString(),
-    version: 'puan-shaz-v1',
-    state: state
-  };
-  const blob = new Blob([JSON.stringify(data, null, 2)], { type:'application/json' });
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = 'puan-shaz-backup-' + date + '.json';
-  a.click();
-}
-
-function importJSON(event) {
-  const file = event.target.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = function (e) {
-    try {
-      const data = JSON.parse(e.target.result);
-      const restored = data.state || data;
-      if (!restored.invoices && !restored.closing) throw new Error('Invalid file');
-      if (!confirm(lang === 'en' ? 'Restore this backup? Current data will be replaced.' : 'Pulihkan backup ini? Data semasa akan diganti.')) return;
-      state = Object.assign(state, restored);
-      state.invoices = state.invoices || [];
-      state.stock    = (state.stock && state.stock.length) ? state.stock : [{ name:'', current:'', par:'' }];
-      state.closing  = state.closing || {};
-      localStorage.setItem(KEY, JSON.stringify(state));
-      location.reload();
-    } catch (err) {
-      alert(lang === 'en' ? 'Invalid JSON file.' : 'Fail JSON tak sah.');
+    const vEl = document.getElementById('r_variance');
+    vEl.textContent = fmt(variance);
+    
+    if (Math.abs(variance) < 0.01) {
+      vEl.className = 'ok';
+      vEl.textContent += ' ✓';
+    } else {
+      vEl.className = 'bad';
     }
-  };
-  reader.readAsText(file);
-}
+  }
 
-/* =========================================================
-   RESET
-   ========================================================= */
-function resetAll() {
-  if (!confirm(I18N[lang].confirm_reset)) return;
-  localStorage.removeItem(KEY);
-  location.reload();
-}
+  // Save to browser
+  function save() {
+    const data = {
+      date: document.getElementById('date').value,
+      gross_sales: document.getElementById('gross_sales').value,
+      cash_sales: document.getElementById('cash_sales').value,
+      settlement: document.getElementById('settlement').value,
+      staff_meal: document.getElementById('staff_meal').value,
+      tips: document.getElementById('tips').value,
+      staff_count: document.getElementById('staff_count').value,
+      float: document.getElementById('float').value,
+      petty: document.getElementById('petty').value,
+      cash_counted: document.getElementById('cash_counted').value
+    };
+    localStorage.setItem(KEY, JSON.stringify(data));
+  }
 
-/* =========================================================
-   HELPERS
-   ========================================================= */
-function esc(s) {
-  return String(s || '').replace(/[&<>"']/g, function (c) {
-    return ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' })[c];
-  });
-}
+  // Load data
+  function load() {
+    const saved = localStorage.getItem(KEY);
+    if (saved) {
+      try {
+        const data = JSON.parse(saved);
+        for (let key in data) {
+          if (document.getElementById(key)) {
+            document.getElementById(key).value = data[key];
+          }
+        }
+      } catch(e) {}
+    } else {
+      // Default to today's date
+      document.getElementById('date').valueAsDate = new Date();
+    }
+    calc();
+  }
 
-/* =========================================================
-   TABS
-   ========================================================= */
-document.querySelectorAll('.tab').forEach(function (btn) {
-  btn.onclick = function () {
-    document.querySelectorAll('.tab').forEach(function (b) { b.classList.remove('active'); });
-    document.querySelectorAll('.panel').forEach(function (p) { p.classList.remove('active'); });
-    btn.classList.add('active');
-    document.getElementById(btn.dataset.tab).classList.add('active');
-  };
-});
+  function resetAll() {
+    if(confirm('Clear all data for today?')) {
+      localStorage.removeItem(KEY);
+      document.querySelectorAll('input').forEach(input => {
+        if (input.type === 'number') input.value = '';
+      });
+      document.getElementById('float').value = '500.00'; // Reset float to default
+      document.getElementById('date').valueAsDate = new Date();
+      calc();
+    }
+  }
 
-/* =========================================================
-   INIT
-   ========================================================= */
-(function init() {
-  load();
+  // Export JSON (Backup)
+  function exportJSON() {
+    const data = localStorage.getItem(KEY);
+    if (!data) return alert('No data to backup.');
+    
+    const blob = new Blob([data], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'PuanShaz_Closing_' + document.getElementById('date').value + '.json';
+    a.click();
+    URL.revokeObjectURL(url);
+  }
 
-  // theme
-  if (localStorage.getItem('puan-shaz-theme') === 'dark') {
+  // Dark/Light Theme
+  function toggleTheme() {
+    const isDark = document.body.classList.toggle('dark');
+    document.getElementById('theme-btn').textContent = isDark ? '☀️' : '🌙';
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+  }
+  
+  if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
     document.body.classList.add('dark');
     document.getElementById('theme-btn').textContent = '☀️';
   }
 
-  // lang
-  const savedLang = localStorage.getItem('puan-shaz-lang') || 'en';
-  setLang(savedLang);
-
-  // closing fields
-  document.getElementById('close-date').value = state.closing.date || '';
-  document.getElementById('modal').value  = state.closing.modal  || '';
-  document.getElementById('cash').value   = state.closing.cash   || '';
-  document.getElementById('card').value   = state.closing.card   || '';
-  document.getElementById('keluar').value = state.closing.keluar || '';
-  document.getElementById('kira').value   = state.closing.kira   || '';
-
-  renderInvoices();
-  renderStock();
-  calcClosing();
-
-  // close modal on background click
-  document.getElementById('edit-modal').addEventListener('click', function (e) {
-    if (e.target.id === 'edit-modal') closeEdit();
-  });
-})();
+  // Run on load
+  load();
 </script>
 
 </body>
