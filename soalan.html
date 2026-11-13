@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Discovery Questions — Closing Report / Soalan Discovery</title>
+  <style>
+    /* =========================================
+       DEFAULT: LIGHT MODE (variables)
+       ========================================= */
+    :root {
+      --bg: #f9fafb;
+      --text: #222;
+      --h1-color: #111;
+      --sub-color: #555;
+      --intro-bg: #eef6ff;
+      --intro-border: #4a90d9;
+      --h2-color: #444;
+      --h2-border: #ddd;
+      --en-color: #555;
+      --my-color: #222;
+      --hint-color: #888;
+      --input-bg: #fff;
+      --input-border: #ccc;
+      --input-text: #222;
+      --btn-bg: #fff;
+      --btn-border: #ccc;
+      --btn-text: #222;
+      --btn-hover: #f0f0f0;
+    }
+
+    /* =========================================
+       DARK MODE OVERRIDES (bila body ada class "dark")
+       ========================================= */
+    body.dark {
+      --bg: #121212;
+      --text: #e0e0e0;
+      --h1-color: #ffffff;
+      --sub-color: #aaaaaa;
+      --intro-bg: #1e2a3a;
+      --intro-border: #3b82f6;
+      --h2-color: #bbbbbb;
+      --h2-border: #333;
+      --en-color: #999;
+      --my-color: #ddd;
+      --hint-color: #777;
+      --input-bg: #1e1e1e;
+      --input-border: #444;
+      --input-text: #eee;
+      --btn-bg: #2a2a2a;
+      --btn-border: #444;
+      --btn-text: #eee;
+      --btn-hover: #3a3a3a;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 700px;
+      margin: 20px auto;
+      padding: 0 16px;
+      line-height: 1.5;
+      background-color: var(--bg);
+      color: var(--text);
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    h1 { font-size: 21px; margin-bottom: 4px; color: var(--h1-color); }
+    h1 span { color: var(--sub-color) !important; }
+
+    .intro {
+      background: var(--intro-bg);
+      border-left: 4px solid var(--intro-border);
+      padding: 12px 14px;
+      font-size: 14px;
+      border-radius: 6px;
+      margin: 14px 0 8px;
+      color: var(--text);
+    }
+
+    h2 {
+      font-size: 15px;
+      margin-top: 28px;
+      color: var(--h2-color);
+      border-bottom: 1px solid var(--h2-border);
+      padding-bottom: 4px;
+    }
+
+    label {
+      display: block;
+      margin-top: 16px;
+      font-size: 14px;
+      font-weight: bold;
+      color: var(--text);
+    }
+
+    .en { color: var(--en-color); font-weight: normal; font-style: italic; }
+    .my { color: var(--my-color); font-weight: normal; }
+
+    textarea {
+      width: 100%;
+      padding: 8px;
+      box-sizing: border-box;
+      font-family: inherit;
+      font-size: 14px;
+      margin-top: 6px;
+      min-height: 44px;
+      resize: vertical;
+      background-color: var(--input-bg);
+      color: var(--input-text);
+      border: 1px solid var(--input-border);
+      border-radius: 4px;
+      transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+    }
+
+    textarea:focus {
+      outline: 2px solid var(--intro-border);
+    }
+
+    .hint {
+      font-size: 12px;
+      color: var(--hint-color);
+      font-weight: normal;
+      display: block;
+      margin-top: 2px;
+    }
+    .hint .my { color: var(--hint-color); }
+
+    button {
+      margin-top: 20px;
+      padding: 10px 16px;
+      font-size: 15px;
+      cursor: pointer;
+      margin-right: 8px;
+      background-color: var(--btn-bg);
+      color: var(--btn-text);
+      border: 1px solid var(--btn-border);
+      border-radius: 6px;
+      transition: background-color 0.2s;
+    }
+    button:hover {
+      background-color: var(--btn-hover);
+    }
+
+    /* Container untuk butang theme */
+    .theme-toggle-wrap {
+      text-align: right;
+      margin-bottom: 10px;
+    }
+    .theme-btn {
+      margin-top: 0;
+      font-size: 20px;
+      padding: 6px 12px;
+    }
+
+    @media print {
+      button { display: none; }
+      textarea { border: 1px solid #ccc; background: #fff !important; color: #000 !important; }
+      body { background: #fff !important; color: #000 !important; }
+      .theme-toggle-wrap { display: none; }
+      :root { --text: #000; --h1-color: #000; --h2-color: #000; --intro-bg: #fff; --intro-border: #000; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Butang Toggle Dark/Light Mode -->
+  <div class="theme-toggle-wrap">
+    <button class="theme-btn" id="theme-toggle" onclick="toggleTheme()" title="Tukar Tema">🌙</button>
+  </div>
+
+  <h1>📋 Closing Report — Discovery Questions<br>
+    <span style="font-size:15px;">Soalan Discovery — Laporan Tutup Kedai</span>
+  </h1>
+
+  <div class="intro">
+    <b>Kepada Puan,</b><br>
+    Saya nak buat satu tool HTML percuma untuk mudahkan kerja Puan (tak minta bayaran — saya buat untuk kawan, sambil saya belajar buat app). Sebelum saya mula, saya perlu faham dulu macam mana kerja Puan sebenarnya, supaya tool ni betul-betul kena dengan cara Puan kerja.<br><br>
+    <span class="en">Hi Puan — I'd like to build a small free HTML tool to make your closing-shift work easier (no charge; I'm doing it for a friend and to practise building apps). Before I start, I need to understand how you actually work, so the tool fits your routine.</span><br><br>
+    Sila isi mana yang Puan tahu. Tak perlu jawab semua. Kalau tak pasti, tulis "tak pasti" — itu pun berguna.<br>
+    <span class="en">Answer what you know. Skip anything you're unsure about — "not sure" is still useful.</span>
+  </div>
+
+  <h2>A. Daily operations / Operasi harian</h2>
+
+  <label>
+    1. Walk me through closing the shop, step by step.<br>
+    <span class="my">Ceritakan step by step macam mana Puan tutup kedai sekarang.</span>
+    <span class="hint">(Most important question / Soalan paling penting)</span>
+    <textarea id="q1"></textarea>
+  </label>
+
+  <label>
+    2. How many cash registers / drawers are there?<br>
+    <span class="my">Berapa cash register / drawer ada?</span>
+    <textarea id="q2"></textarea>
+  </label>
+
+  <label>
+    3. Which payment methods do you accept?<br>
+    <span class="my">Payment apa yang diterima?</span>
+    <span class="hint">(cash, card, TnG, GrabPay, vouchers, delivery apps / tunai, kad, TnG, GrabPay, voucher, delivery)</span>
+    <textarea id="q3"></textarea>
+  </label>
+
+  <label>
+    4. Are there tips? Who do tips go to?<br>
+    <span class="my">Ada tips tak? Tips masuk siapa?</span>
+    <textarea id="q4"></textarea>
+  </label>
+
+  <label>
+    5. How do you handle refunds or void orders?<br>
+    <span class="my">Refund / void order — macam mana handle?</span>
+    <textarea id="q5"></textarea>
+  </label>
+
+  <label>
+    6. Petty cash / money going out — who approves, where is it recorded?<br>
+    <span class="my">Petty cash / duit keluar — siapa approve, catat mana?</span>
+    <textarea id="q6"></textarea>
+  </label>
+
+  <label>
+    7. Opening float — how much, and is it fixed or changes daily?<br>
+    <span class="my">Float / modal awal — berapa, tetap atau berubah setiap hari?</span>
+    <textarea id="q7"></textarea>
+  </label>
+
+  <label>
+    8. Staff meals / complimentary items — do these happen? How are they recorded?<br>
+    <span class="my">Staff meal / complimentary — ada tak? Rekod macam mana?</span>
+    <textarea id="q8"></textarea>
+  </label>
+
+  <h2>B. Existing system / Sistem sedia ada</h2>
+
+  <label>
+    9. Do you use a POS? Which brand?<br>
+    <span class="my">Guna POS tak? Brand apa?</span>
+    <span class="hint">(Square / Loyverse / StoreHub / none / other — tiada / lain)</span>
+    <textarea id="q9"></textarea>
+  </label>
+
+  <label>
+    10. Can the POS export reports? (CSV / PDF)<br>
+    <span class="my">POS boleh export report tak?</span>
+    <textarea id="q10"></textarea>
+  </label>
+
+  <label>
+    11. How do you record things right now?<br>
+    <span class="my">Sekarang rekod pakai apa?</span>
+    <span class="hint">(paper book, Excel, WhatsApp, printed POS receipt / buku, Excel, WhatsApp, print POS)</span>
+    <textarea id="q11"></textarea>
+  </label>
+
+  <label>
+    12. Does the owner / HQ require a specific report format? Can you show me?<br>
+    <span class="my">Owner / HQ ada minta format laporan tertentu? Boleh tunjuk?</span>
+    <textarea id="q12"></textarea>
+  </label>
+
+  <h2>C. Who uses it & what they need / Siapa guna & apa dia nak</h2>
+
+  <label>
+    13. Who fills in the closing report, and who receives it?<br>
+    <span class="my">Siapa isi laporan tutup kedai, dan siapa terima?</span>
+    <textarea id="q13"></textarea>
+  </label>
+
+  <label>
+    14. What are the top 3 things you need to see at a glance?<br>
+    <span class="my">Apa 3 benda paling penting Puan nak nampak terus dalam laporan?</span>
+    <textarea id="q14"></textarea>
+  </label>
+
+  <label>
+    15. Which part takes the most time, or is most often wrong?<br>
+    <span class="my">Bahagian mana paling makan masa, atau paling selalu silap?</span>
+    <textarea id="q15"></textarea>
+  </label>
+
+  <h2>D. Devices / Peranti</h2>
+
+  <label>
+    16. Which device will you actually use this on?<br>
+    <span class="my">Puan akan guna device apa?</span>
+    <span class="hint">(laptop / tablet / phone / all three / laptop, tablet, phone, semua)</span>
+    <textarea id="q16"></textarea>
+  </label>
+
+  <label>
+    17. Is the internet reliable at the shop? Does it need to work offline?<br>
+    <span class="my">Internet kat kedai ok tak? Perlu boleh guna offline?</span>
+    <textarea id="q17"></textarea>
+  </label>
+
+  <h2>E. Data storage / Simpanan data</h2>
+
+  <label>
+    18. Where should the data live?<br>
+    <span class="my">Data nak simpan di mana?</span>
+    <span class="hint">
+      <b>Option A — Local (browser):</b> Free, works offline, data stays on your device. Simple, but if the device breaks or you clear the browser, data is gone. No login.<br>
+      <span class="my"><b>Pilihan A — Local:</b> Percuma, boleh guna offline, data duduk dalam device Puan. Mudah, tapi kalau device rosak atau clear browser, data hilang. Tak perlu login.</span><br><br>
+      <b>Option B — Supabase (cloud):</b> Works across devices, auto-saved online, can back up. Needs internet + a free account. More setup.<br>
+      <span class="my"><b>Pilihan B — Supabase (cloud):</b> Boleh guna merentas device, auto-simpan online, boleh backup. Perlu internet + akaun percuma. Setup lebih sikit.</span><br><br>
+      <i>My suggestion for one user: start with Local, move to Supabase later only if needed.<br>
+      <span class="my">Saya cadang (untuk seorang user): mula dengan Local dulu, pindah ke Supabase kemudian kalau perlu.</span></i>
+    </span>
+    <textarea id="q18"></textarea>
+  </label>
+
+  <h2>F. Dream & limits / Mimpi & had</h2>
+
+  <label>
+    19. If one thing in your closing routine could disappear forever, what would it be?<br>
+    <span class="my">Kalau satu benda dalam kerja tutup kedai boleh hilang terus, apa dia?</span>
+    <textarea id="q19"></textarea>
+  </label>
+
+  <label>
+    20. Anything the tool must NOT do? (privacy, data that can't leave the shop, etc.)<br>
+    <span class="my">Ada benda tool ni tak boleh buat? (privacy, data sensitif, dll.)</span>
+    <textarea id="q20"></textarea>
+  </label>
+
+  <button onclick="copyAll()">📋 Copy answers / Copy jawapan</button>
+  <button onclick="window.print()">🖨️ Print</button>
+
+  <script>
+    // ==========================================
+    // FUNGSI THEME (DARK / LIGHT)
+    // ==========================================
+    const themeBtn = document.getElementById('theme-toggle');
+
+    // Semak sama ada user pernah pilih dark mode sebelum ni
+    function applyTheme(isDark) {
+      if (isDark) {
+        document.body.classList.add('dark');
+        themeBtn.textContent = '☀️'; // Matahari (tukar ke light)
+        themeBtn.title = 'Tukar ke Light Mode';
+      } else {
+        document.body.classList.remove('dark');
+        themeBtn.textContent = '🌙'; // Bulan (tukar ke dark)
+        themeBtn.title = 'Tukar ke Dark Mode';
+      }
+    }
+
+    // Fungsi bila butang ditekan
+    function toggleTheme() {
+      const isDark = !document.body.classList.contains('dark');
+      applyTheme(isDark);
+      // Simpan pilihan dalam browser
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    }
+
+    // Bila page buka, semak memori browser
+    const savedTheme = localStorage.getItem('theme');
+    // Kalau tiada memori, ikut setting sistem (prefers-color-scheme)
+    if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      applyTheme(true);
+    } else {
+      applyTheme(false);
+    }
+
+    // ==========================================
+    // FUNGSI COPY
+    // ==========================================
+    function copyAll() {
+      const labels = document.querySelectorAll('label');
+      let out = 'DISCOVERY ANSWERS — CLOSING REPORT\nJAWAPAN DISCOVERY — LAPORAN TUTUP KEDAI\n\n';
+      labels.forEach(function (lbl) {
+        const q = lbl.childNodes[0].textContent.trim();
+        const ta = lbl.querySelector('textarea');
+        const a = ta ? ta.value.trim() : '';
+        if (a) out += q + '\n→ ' + a + '\n\n';
+      });
+      navigator.clipboard.writeText(out).then(
+        function () { alert('Copied! / Dah copy!\n\nPaste in WhatsApp or notes.\nPaste dalam WhatsApp atau nota.'); },
+        function () { prompt('Copy manually / Copy manual:', out); }
+      );
+    }
+  </script>
+</body>
+</html>
