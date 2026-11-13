@@ -5,16 +5,36 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Puan Shaz — Closing Report</title>
 <style>
+  /* LIGHT MODE (Dimmed for eye comfort) */
   :root {
-    --bg: #f4f6f8; --card: #fff; --text: #1f2933; --muted: #6b7280;
-    --border: #e4e7eb; --primary: #2563eb; --ok: #16a34a; --bad: #dc2626;
-    --input-bg: #fff; --input-border: #ccc; --highlight: #eff6ff;
+    --bg: #eaeff5;           /* Soft greyish blue, tak memancar */
+    --card: #f4f7f9;         /* Kad warna off-white, bukan putih tulen */
+    --text: #2c3e50;         /* Dark navy grey, bukan hitam legam */
+    --muted: #64748b;
+    --border: #cbd5e1;
+    --primary: #3b82f6;
+    --ok: #059669;
+    --bad: #dc2626;
+    --input-bg: #ffffff;     /* Input kekal putih sikit supaya nampak jelas */
+    --input-border: #94a3b8;
+    --highlight: #e0f2fe;    /* Biru lembut untuk kotak summary */
   }
+
+  /* DARK MODE */
   body.dark {
-    --bg: #111827; --card: #1f2937; --text: #f9fafb; --muted: #9ca3af;
-    --border: #374151; --primary: #3b82f6; --ok: #22c55e; --bad: #ef4444;
-    --input-bg: #374151; --input-border: #4b5563; --highlight: #1e3a8a;
+    --bg: #0f172a;           /* Deep navy, lagi selesa dari hitam tulen */
+    --card: #1e293b;
+    --text: #e2e8f0;
+    --muted: #94a3b8;
+    --border: #334155;
+    --primary: #60a5fa;
+    --ok: #34d399;
+    --bad: #f87171;
+    --input-bg: #0f172a;
+    --input-border: #475569;
+    --highlight: #1e3a8a;
   }
+
   * { box-sizing: border-box; }
   body {
     font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -26,7 +46,10 @@
   header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
   header h1 { font-size: 22px; margin: 0; }
   header p { color: var(--muted); font-size: 14px; margin: 4px 0 0; }
-  .btn-icon { border: 1px solid var(--border); background: var(--card); color: var(--text); border-radius: 8px; padding: 8px 12px; cursor: pointer; font-size: 16px; }
+  .btn-icon { 
+    border: 1px solid var(--border); background: var(--card); color: var(--text); 
+    border-radius: 8px; padding: 8px 12px; cursor: pointer; font-size: 16px; 
+  }
   
   .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
   @media (max-width: 650px) { .grid-2 { grid-template-columns: 1fr; } }
@@ -34,6 +57,7 @@
   .card {
     background: var(--card); border: 1px solid var(--border);
     border-radius: 12px; padding: 16px; margin-bottom: 16px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05); /* Bayang halus */
   }
   .card h2 { font-size: 16px; margin: 0 0 12px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
   
@@ -52,7 +76,7 @@
     border-radius: 8px; font-size: 15px; font-family: inherit;
     background: var(--input-bg); color: var(--text);
   }
-  input:focus { outline: 2px solid var(--primary); }
+  input:focus { outline: 2px solid var(--primary); border-color: transparent; }
   
   .result-box {
     background: var(--highlight); border-radius: 8px; padding: 12px;
@@ -63,21 +87,21 @@
     padding: 8px 0; border-bottom: 1px dashed var(--border);
   }
   .result-row:last-child { border-bottom: none; font-weight: bold; font-size: 16px; margin-top: 4px; padding-top: 12px; }
-  .ok { color: var(--ok); }
-  .bad { color: var(--bad); }
+  .ok { color: var(--ok); font-weight: bold; }
+  .bad { color: var(--bad); font-weight: bold; }
   
   .actions { display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap; }
   .btn {
     padding: 12px 20px; border: 1px solid var(--border); background: var(--card);
     color: var(--text); border-radius: 8px; cursor: pointer; font-size: 15px; font-weight: 600;
-    flex: 1; min-width: 140px;
+    flex: 1; min-width: 140px; transition: all 0.2s;
   }
   .btn.primary { background: var(--primary); color: #fff; border-color: var(--primary); }
-  .btn:hover { opacity: 0.9; }
+  .btn:hover { opacity: 0.9; transform: translateY(-1px); }
   
   @media print {
     body { background: #fff !important; color: #000 !important; }
-    .card { border: 1px solid #000 !important; break-inside: avoid; }
+    .card { border: 1px solid #000 !important; break-inside: avoid; box-shadow: none; }
     .actions, .btn-icon, .no-print, .instructions { display: none !important; }
     input { border: none !important; background: transparent !important; font-weight: bold; }
     .result-box { border: 1px solid #000; }
@@ -253,26 +277,19 @@
     }
   }
 
-  // ---- KEMASKINI: EXPORT JSON DENGAN TIMESTAMP ----
   function exportJSON() {
     const data = localStorage.getItem(KEY);
     if (!data) return alert('No data to backup.');
     
-    // 1. Dapatkan tarikh & masa sekarang
     const now = new Date();
-    
-    // 2. Format tarikh: DD MMM YYYY (contoh: 13 Nov 2026)
     const day = String(now.getDate()).padStart(2, '0');
     const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
     const month = months[now.getMonth()];
     const year = now.getFullYear();
-    
-    // 3. Format masa: HHMMSS (contoh: 143005 untuk 2:30:05 PM)
     const hours = String(now.getHours()).padStart(2, '0');
     const minutes = String(now.getMinutes()).padStart(2, '0');
     const seconds = String(now.getSeconds()).padStart(2, '0');
     
-    // 4. Cantumkan semua
     const timestamp = `${day}_${month}_${year}_${hours}${minutes}${seconds}`;
     const filename = `PuanShaz_Closing_${timestamp}.json`;
     
@@ -293,14 +310,10 @@
     reader.onload = function(e) {
       try {
         const data = JSON.parse(e.target.result);
-        
         if (typeof data !== 'object') throw new Error('Invalid format');
-        
         if (!confirm('Restore this backup? Current data will be overwritten.')) return;
-        
         localStorage.setItem(KEY, JSON.stringify(data));
         location.reload();
-        
       } catch (err) {
         alert('Error: Invalid JSON file.');
       }
