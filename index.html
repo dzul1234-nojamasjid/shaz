@@ -37,7 +37,6 @@
   }
   .card h2 { font-size: 16px; margin: 0 0 12px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
   
-  /* Styling for the instructions box */
   .instructions {
     background: var(--highlight); border-left: 4px solid var(--primary);
     padding: 12px 16px; border-radius: 8px; margin-bottom: 20px;
@@ -71,7 +70,7 @@
   .btn {
     padding: 12px 20px; border: 1px solid var(--border); background: var(--card);
     color: var(--text); border-radius: 8px; cursor: pointer; font-size: 15px; font-weight: 600;
-    flex: 1;
+    flex: 1; min-width: 140px;
   }
   .btn.primary { background: var(--primary); color: #fff; border-color: var(--primary); }
   .btn:hover { opacity: 0.9; }
@@ -95,7 +94,6 @@
   <button class="btn-icon" id="theme-btn" onclick="toggleTheme()">🌙</button>
 </header>
 
-<!-- INSTRUCTIONS SECTION -->
 <div class="instructions no-print">
   <h3>📋 How to use this app</h3>
   <ul>
@@ -108,7 +106,6 @@
 </div>
 
 <div class="grid-2">
-  <!-- LEFT: INPUT -->
   <div>
     <div class="card">
       <h2>1. Sales Data</h2>
@@ -126,7 +123,6 @@
     </div>
   </div>
 
-  <!-- RIGHT: CASH & RESULT -->
   <div>
     <div class="card">
       <h2>2. Cash Drawer</h2>
@@ -171,6 +167,8 @@
 <div class="actions no-print">
   <button class="btn primary" onclick="window.print()">🖨️ Print / Save PDF</button>
   <button class="btn" onclick="exportJSON()">💾 Backup JSON</button>
+  <button class="btn" onclick="document.getElementById('import-file').click()">📂 Restore JSON</button>
+  <input type="file" id="import-file" accept=".json" onchange="importJSON(event)" style="display:none">
   <button class="btn" onclick="resetAll()" style="color: var(--bad); border-color: var(--bad);">🔄 Reset Today</button>
 </div>
 
@@ -182,11 +180,8 @@
   function getVal(id) { return parseFloat(document.getElementById(id).value) || 0; }
   function fmt(n) { return '$' + n.toFixed(2); }
 
-  // Calculate everything
   function calc() {
-    const gross = getVal('gross_sales');
     const cash_sales = getVal('cash_sales');
-    const settlement = getVal('settlement');
     const float = getVal('float');
     const petty = getVal('petty');
     const staff_meal = getVal('staff_meal');
@@ -194,15 +189,10 @@
     const tips = getVal('tips');
     const staff_count = getVal('staff_count');
 
-    // Business Logic
-    // Expected Cash = Opening Float + Cash Sales - Staff Meal - Petty Cash
     const expected_cash = float + cash_sales - staff_meal - petty;
     const variance = cash_counted - expected_cash;
-    
-    // Tips per staff
     const tips_per_staff = staff_count > 0 ? (tips / staff_count) : 0;
 
-    // Display
     document.getElementById('r_expected').textContent = fmt(expected_cash);
     document.getElementById('r_actual').textContent = fmt(cash_counted);
     document.getElementById('r_tips_per_staff').textContent = fmt(tips_per_staff);
@@ -218,7 +208,6 @@
     }
   }
 
-  // Save to browser
   function save() {
     const data = {
       date: document.getElementById('date').value,
@@ -235,7 +224,6 @@
     localStorage.setItem(KEY, JSON.stringify(data));
   }
 
-  // Load data
   function load() {
     const saved = localStorage.getItem(KEY);
     if (saved) {
@@ -248,7 +236,6 @@
         }
       } catch(e) {}
     } else {
-      // Default to today's date
       document.getElementById('date').valueAsDate = new Date();
     }
     calc();
@@ -260,27 +247,68 @@
       document.querySelectorAll('input').forEach(input => {
         if (input.type === 'number') input.value = '';
       });
-      document.getElementById('float').value = '500.00'; // Reset float to default
+      document.getElementById('float').value = '500.00';
       document.getElementById('date').valueAsDate = new Date();
       calc();
     }
   }
 
-  // Export JSON (Backup)
+  // ---- KEMASKINI: EXPORT JSON DENGAN TIMESTAMP ----
   function exportJSON() {
     const data = localStorage.getItem(KEY);
     if (!data) return alert('No data to backup.');
+    
+    // 1. Dapatkan tarikh & masa sekarang
+    const now = new Date();
+    
+    // 2. Format tarikh: DD MMM YYYY (contoh: 13 Nov 2026)
+    const day = String(now.getDate()).padStart(2, '0');
+    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    const month = months[now.getMonth()];
+    const year = now.getFullYear();
+    
+    // 3. Format masa: HHMMSS (contoh: 143005 untuk 2:30:05 PM)
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0');
+    
+    // 4. Cantumkan semua
+    const timestamp = `${day}_${month}_${year}_${hours}${minutes}${seconds}`;
+    const filename = `PuanShaz_Closing_${timestamp}.json`;
     
     const blob = new Blob([data], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'PuanShaz_Closing_' + document.getElementById('date').value + '.json';
+    a.download = filename;
     a.click();
     URL.revokeObjectURL(url);
   }
 
-  // Dark/Light Theme
+  function importJSON(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      try {
+        const data = JSON.parse(e.target.result);
+        
+        if (typeof data !== 'object') throw new Error('Invalid format');
+        
+        if (!confirm('Restore this backup? Current data will be overwritten.')) return;
+        
+        localStorage.setItem(KEY, JSON.stringify(data));
+        location.reload();
+        
+      } catch (err) {
+        alert('Error: Invalid JSON file.');
+      }
+    };
+    reader.readAsText(file);
+    event.target.value = '';
+  }
+
   function toggleTheme() {
     const isDark = document.body.classList.toggle('dark');
     document.getElementById('theme-btn').textContent = isDark ? '☀️' : '🌙';
@@ -292,7 +320,6 @@
     document.getElementById('theme-btn').textContent = '☀️';
   }
 
-  // Run on load
   load();
 </script>
 
